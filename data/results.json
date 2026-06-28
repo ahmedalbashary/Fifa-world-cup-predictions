@@ -10,7 +10,7 @@
     }
   },
 
-  "r32_m1":  { "home_score": null, "away_score": null, "penalties_winner": null },
+  "r32_m1":  { "home_score": 0, "away_score": 1, "penalties_winner": null },
   "r32_m2":  { "home_score": null, "away_score": null, "penalties_winner": null },
   "r32_m3":  { "home_score": null, "away_score": null, "penalties_winner": null },
   "r32_m4":  { "home_score": null, "away_score": null, "penalties_winner": null },
