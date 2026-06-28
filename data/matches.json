@@ -1,0 +1,62 @@
+{
+  "_comment": "matches.json — defines all knockout matches. Fill in 'home' and 'away' team names for each slot. Leave 'home'/'away' as null for rounds not yet determined. 'penalties_winner' is optional — only set if the match went to penalties (use the team name that won on penalties).",
+
+  "rounds": {
+    "round_of_32": {
+      "label": "Round of 32",
+      "matches": [
+        { "id": "r32_m1",  "home": "Argentina",   "away": "Saudi Arabia",  "date": "2026-06-18" },
+        { "id": "r32_m2",  "home": "France",       "away": "Denmark",       "date": "2026-06-18" },
+        { "id": "r32_m3",  "home": "Brazil",       "away": "Ghana",         "date": "2026-06-19" },
+        { "id": "r32_m4",  "home": "England",      "away": "Nigeria",       "date": "2026-06-19" },
+        { "id": "r32_m5",  "home": "Spain",        "away": "Chile",         "date": "2026-06-20" },
+        { "id": "r32_m6",  "home": "Germany",      "away": "Uruguay",       "date": "2026-06-20" },
+        { "id": "r32_m7",  "home": "Portugal",     "away": "Colombia",      "date": "2026-06-21" },
+        { "id": "r32_m8",  "home": "Netherlands",  "away": "Serbia",        "date": "2026-06-21" },
+        { "id": "r32_m9",  "home": "Morocco",      "away": "Qatar",         "date": "2026-06-22" },
+        { "id": "r32_m10", "home": "USA",          "away": "Switzerland",   "date": "2026-06-22" },
+        { "id": "r32_m11", "home": "Mexico",       "away": "Poland",        "date": "2026-06-23" },
+        { "id": "r32_m12", "home": "Canada",       "away": "Australia",     "date": "2026-06-23" },
+        { "id": "r32_m13", "home": "Japan",        "away": "Tunisia",       "date": "2026-06-24" },
+        { "id": "r32_m14", "home": "South Korea",  "away": "Iran",          "date": "2026-06-24" },
+        { "id": "r32_m15", "home": "Senegal",      "away": "Belgium",       "date": "2026-06-25" },
+        { "id": "r32_m16", "home": "Ecuador",      "away": "Croatia",       "date": "2026-06-25" }
+      ]
+    },
+    "round_of_16": {
+      "label": "Round of 16",
+      "matches": [
+        { "id": "r16_m1", "home": null, "away": null, "date": null, "from": ["r32_m1", "r32_m2"] },
+        { "id": "r16_m2", "home": null, "away": null, "date": null, "from": ["r32_m3", "r32_m4"] },
+        { "id": "r16_m3", "home": null, "away": null, "date": null, "from": ["r32_m5", "r32_m6"] },
+        { "id": "r16_m4", "home": null, "away": null, "date": null, "from": ["r32_m7", "r32_m8"] },
+        { "id": "r16_m5", "home": null, "away": null, "date": null, "from": ["r32_m9", "r32_m10"] },
+        { "id": "r16_m6", "home": null, "away": null, "date": null, "from": ["r32_m11", "r32_m12"] },
+        { "id": "r16_m7", "home": null, "away": null, "date": null, "from": ["r32_m13", "r32_m14"] },
+        { "id": "r16_m8", "home": null, "away": null, "date": null, "from": ["r32_m15", "r32_m16"] }
+      ]
+    },
+    "quarter_finals": {
+      "label": "Quarter Finals",
+      "matches": [
+        { "id": "qf_m1", "home": null, "away": null, "date": null, "from": ["r16_m1", "r16_m2"] },
+        { "id": "qf_m2", "home": null, "away": null, "date": null, "from": ["r16_m3", "r16_m4"] },
+        { "id": "qf_m3", "home": null, "away": null, "date": null, "from": ["r16_m5", "r16_m6"] },
+        { "id": "qf_m4", "home": null, "away": null, "date": null, "from": ["r16_m7", "r16_m8"] }
+      ]
+    },
+    "semi_finals": {
+      "label": "Semi Finals",
+      "matches": [
+        { "id": "sf_m1", "home": null, "away": null, "date": null, "from": ["qf_m1", "qf_m2"] },
+        { "id": "sf_m2", "home": null, "away": null, "date": null, "from": ["qf_m3", "qf_m4"] }
+      ]
+    },
+    "final": {
+      "label": "Final",
+      "matches": [
+        { "id": "final_m1", "home": null, "away": null, "date": null, "from": ["sf_m1", "sf_m2"] }
+      ]
+    }
+  }
+}
