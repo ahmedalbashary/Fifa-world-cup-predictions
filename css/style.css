@@ -814,25 +814,74 @@ body {
 
 /* ── Responsive ────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  .site-title      { font-size: 1.5rem; }
-  #main-content    { padding: 18px 12px 50px; }
-  .section-title   { font-size: 1.7rem; }
+  .site-title      { font-size: 1.3rem; }
+  #main-content    { padding: 14px 10px 50px; }
+  .section-title   { font-size: 1.5rem; }
 
-  .lb-card         { flex-wrap: wrap; }
-  .lb-pts          { font-size: 2.2rem; }
+  /* Leaderboard */
+  .lb-card         { padding: 14px 14px; gap: 12px; }
+  .lb-pts          { font-size: 2rem; }
+  .lb-rank         { font-size: 1.4rem; min-width: 34px; }
+  .lb-name         { font-size: 0.92rem; }
+  .lb-stats        { font-size: 0.7rem; gap: 8px; flex-wrap: wrap; }
 
+  /* Predictions table — keep ALL columns, shrink them */
+  .predictions-table {
+    font-size: 0.75rem;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .predictions-table thead,
+  .predictions-table tbody,
+  .predictions-table tr { display: table-row-group; }
+  .predictions-table thead { display: table-header-group; }
+  .predictions-table tr    { display: table-row; }
+  .predictions-table td,
+  .predictions-table th    { display: table-cell; }
+
+  .predictions-table th,
+  .predictions-table td    { padding: 8px 6px; }
+
+  /* Keep prediction column visible — just tighten */
   .predictions-table th:nth-child(2),
-  .predictions-table td:nth-child(2) { display: none; } /* hide prediction col on small */
+  .predictions-table td:nth-child(2) { display: table-cell; }
 
+  /* Shrink team name on mobile — flag + short name */
+  .team-cell       { max-width: 70px; }
+  .team-display    { gap: 3px; font-size: 0.72rem; }
+
+  /* Score columns compact */
+  .score-col       { min-width: 48px; }
+  .pred-score,
+  .actual-score    { font-size: 0.8rem; }
+
+  /* Points badge smaller */
+  .pts-badge       { width: 22px; height: 22px; font-size: 0.72rem; }
+
+  /* Bracket */
   .bracket-wrap    { gap: 8px; }
-  .bracket-col     { min-width: 130px; }
+  .bracket-col     { min-width: 120px; }
+  .bracket-team    { font-size: 0.72rem; padding: 6px 8px; }
 
+  /* Player stats bar */
   .player-stats-bar { gap: 8px; }
-  .pstat           { min-width: 70px; padding: 10px 12px; }
-  .pstat-val       { font-size: 1.5rem; }
+  .pstat           { min-width: 70px; padding: 10px 10px; }
+  .pstat-val       { font-size: 1.4rem; }
 
+  /* Stats table — hide accuracy bar col on very small */
   .stats-table th:nth-child(5),
   .stats-table td:nth-child(5) { display: none; }
+
+  /* Round filter buttons */
+  .filter-btn      { font-size: 0.7rem; padding: 4px 10px; }
+
+  /* Search bar full width */
+  .search-bar input { max-width: 100%; }
+
+  /* Stat match header smaller */
+  .stat-match-header { font-size: 0.78rem; padding: 8px 12px; }
+  .stat-result       { font-size: 1.1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
