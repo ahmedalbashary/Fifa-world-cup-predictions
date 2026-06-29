@@ -1,0 +1,25 @@
+name: Auto-update match results
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # كل ساعتين
+  workflow_dispatch:          # تشغيل يدوي من GitHub لو حبيت
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update results from API
+        env:
+          FOOTBALL_API_KEY: ${{ secrets.FOOTBALL_API_KEY }}
+        run: python3 .github/scripts/update_results.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/results.json
+          git diff --cached --quiet || git commit -m "chore: auto-update match results [skip ci]"
+          git push
