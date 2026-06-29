@@ -1,3 +1,4 @@
+print("NEW VERSION")
 import json, os, time, urllib.request
 from pathlib import Path
 
