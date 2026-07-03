@@ -6,30 +6,25 @@
  *  - 1 point for correctly predicting the winning team (or draw).
  *  - +1 bonus point for predicting the exact score.
  *  - Maximum 2 points per match.
- *  - Penalties: only the score after 90/120 mins counts for scoring;
- *    but the team that advances (via penalties) determines bracket progression.
+ *
+ * Winner logic:
+ *  - If match decided in 90/120 min → winner = team with more goals.
+ *  - If draw after 90/120 min → winner = penalties_winner.
+ *
+ * Prediction winner logic:
+ *  - If predicted score is a draw → pen_winner field determines predicted winner.
+ *  - If predicted score is not a draw → higher score side is predicted winner.
+ *
+ * "Correct winner" = predicted winner matches actual winner (regardless of how match ended).
  */
 
-/**
- * Determine the match outcome category.
- * @param {number} home - Home goals
- * @param {number} away - Away goals
- * @returns {'home'|'away'|'draw'}
- */
 export function getOutcome(home, away) {
   if (home > away) return 'home';
   if (away > home) return 'away';
   return 'draw';
 }
 
-/**
- * Calculate points earned for a single match prediction.
- * @param {object} prediction - { home, away }
- * @param {object} result     - { home_score, away_score }
- * @returns {{ points: number, exactScore: boolean, correctWinner: boolean }}
- */
 export function calcMatchPoints(prediction, result) {
-  // If no result yet, return null
   if (result.home_score === null || result.away_score === null) {
     return { points: null, exactScore: false, correctWinner: false };
   }
@@ -40,9 +35,23 @@ export function calcMatchPoints(prediction, result) {
   const predOutcome   = getOutcome(prediction.home, prediction.away);
   const actualOutcome = getOutcome(result.home_score, result.away_score);
 
-  const correctWinner = predOutcome === actualOutcome;
-  const exactScore    = prediction.home === result.home_score &&
-                        prediction.away === result.away_score;
+  // Actual winner: pen winner if draw, otherwise score winner
+  const actualWinner = actualOutcome === 'draw'
+    ? (result.penalties_winner || null)  // null = draw with no pens (group stage)
+    : actualOutcome; // 'home' or 'away'
+
+  // Predicted winner: pen_winner if predicted draw, otherwise score outcome
+  const predWinner = predOutcome === 'draw'
+    ? (prediction.pen_winner || null)
+    : predOutcome; // 'home' or 'away'
+
+  // Correct winner: predicted winner matches actual winner
+  const correctWinner = predWinner !== null && actualWinner !== null
+    ? predWinner === actualWinner
+    : predOutcome === actualOutcome; // fallback for group stage draws
+
+  const exactScore = prediction.home === result.home_score &&
+                     prediction.away === result.away_score;
 
   let points = 0;
   if (correctWinner) points += 1;
@@ -51,13 +60,6 @@ export function calcMatchPoints(prediction, result) {
   return { points, exactScore, correctWinner };
 }
 
-/**
- * Calculate total points for a participant across all matches.
- * @param {string}  participant  - Participant name
- * @param {object}  predictions  - Full predictions object (all participants)
- * @param {object}  results      - Full results object
- * @returns {{ total: number, breakdown: object, exactScores: number, correctWinners: number, playedMatches: number }}
- */
 export function calcTotalPoints(participant, predictions, results) {
   const myPreds = predictions[participant] || {};
   let total          = 0;
@@ -67,8 +69,9 @@ export function calcTotalPoints(participant, predictions, results) {
   const breakdown    = {};
 
   for (const matchId of Object.keys(results)) {
+    if (matchId.startsWith('_')) continue;
     const result = results[matchId];
-    if (result.home_score === null) continue; // Not played yet
+    if (result.home_score === null) continue;
 
     playedMatches++;
     const pred   = myPreds[matchId];
@@ -85,26 +88,17 @@ export function calcTotalPoints(participant, predictions, results) {
   return { total, breakdown, exactScores, correctWinners, playedMatches };
 }
 
-/**
- * Build a sorted leaderboard array.
- * @param {string[]} participants
- * @param {object}   predictions
- * @param {object}   results
- * @returns {Array<{ name, total, exactScores, correctWinners, playedMatches }>}
- */
 export function buildLeaderboard(participants, predictions, results) {
   const board = participants.map(name => {
     const stats = calcTotalPoints(name, predictions, results);
     return { name, ...stats };
   });
 
-  // Sort: highest points first; ties broken alphabetically
   board.sort((a, b) => {
     if (b.total !== a.total) return b.total - a.total;
     return a.name.localeCompare(b.name);
   });
 
-  // Assign ranks (ties share same rank)
   let rank = 1;
   for (let i = 0; i < board.length; i++) {
     if (i > 0 && board[i].total !== board[i - 1].total) {
