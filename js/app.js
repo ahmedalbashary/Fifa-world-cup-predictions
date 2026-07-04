@@ -54,7 +54,14 @@ async function loadAllData() {
   state.results     = resultsData;
   state.predictions = predictionsData;
   state.resolved    = resolveBracket(matchesData, resultsData);
-  state.leaderboard = buildLeaderboard(PARTICIPANTS, predictionsData, resultsData);
+  // Build matchesById lookup for calculator
+  state.matchesById = {};
+  for (const round of Object.values(matchesData.rounds || {})) {
+    for (const m of round.matches || []) {
+      state.matchesById[m.id] = m;
+    }
+  }
+  state.leaderboard = buildLeaderboard(PARTICIPANTS, predictionsData, resultsData, state.matchesById);
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -243,7 +250,7 @@ function renderPlayer(name) {
   const wrap = document.createElement('div');
   wrap.className = 'section player-section';
 
-  const stats = calcTotalPoints(name, state.predictions, state.results);
+  const stats = calcTotalPoints(name, state.predictions, state.results, state.matchesById);
   const lbPos = state.leaderboard.find(x => x.name === name);
 
   wrap.innerHTML = `
@@ -304,7 +311,7 @@ function renderPlayer(name) {
     for (const match of round.matches) {
       const result = state.results[match.id];
       const pred   = myPreds[match.id];
-      const scored = result ? calcMatchPoints(pred, result) : { points: null, exactScore: false, correctWinner: false };
+      const scored = result ? calcMatchPoints(pred, result, state.matchesById?.[match.id]) : { points: null, exactScore: false, correctWinner: false };
 
       const played   = result && result.home_score !== null;
       const rowClass = played
@@ -502,7 +509,7 @@ function renderStats() {
         <div class="stat-match-preds">
           ${PARTICIPANTS.map(p => {
             const pred   = state.predictions[p]?.[match.id];
-            const scored = calcMatchPoints(pred, result);
+            const scored = calcMatchPoints(pred, result, state.matchesById?.[match.id]);
             const cls    = scored.points === 2 ? 'pred-perfect' : scored.points === 1 ? 'pred-partial' : 'pred-miss';
             const predStr = pred ? `${pred.home}:${pred.away}` : '?';
             return `<span class="pred-chip ${cls}" title="${p}: ${predStr} (${scored.points ?? 0}pts)">${p.split(' ')[0]}<br>${predStr}</span>`;
