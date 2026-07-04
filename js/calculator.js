@@ -3,19 +3,19 @@
  * Scoring engine for the World Cup prediction league.
  *
  * Rules:
- *  - 1 point for correctly predicting the winning team (or draw).
- *  - +1 bonus point for predicting the exact score.
+ *  - 1 point for correctly predicting the winning team (or draw outcome).
+ *  - +1 bonus point for predicting the exact score (90 min score).
  *  - Maximum 2 points per match.
  *
  * Winner logic:
- *  - If match decided in 90/120 min → winner = team with more goals.
- *  - If draw after 90/120 min → winner = penalties_winner.
+ *  - Actual winner = team with more goals after 90 min.
+ *  - If draw after 90 min → actual winner = penalties_winner (team name).
+ *  - Predicted winner = team with more goals in prediction.
+ *  - If predicted draw → predicted winner = pen_winner (team name) if set, else null.
  *
- * Prediction winner logic:
- *  - If predicted score is a draw → pen_winner field determines predicted winner.
- *  - If predicted score is not a draw → higher score side is predicted winner.
- *
- * "Correct winner" = predicted winner matches actual winner (regardless of how match ended).
+ * "Correct winner" = predicted winner matches actual winner.
+ * Predicted a win → team wins by any means (normal or pens) = ✅
+ * Predicted a draw + correct pen winner → ✅
  */
 
 export function getOutcome(home, away) {
@@ -24,7 +24,24 @@ export function getOutcome(home, away) {
   return 'draw';
 }
 
-export function calcMatchPoints(prediction, result) {
+/**
+ * Convert penalties_winner team name to 'home'/'away' using match definition.
+ * @param {string} teamName - e.g. "Morocco"
+ * @param {object} match - { home: "Netherlands", away: "Morocco" }
+ */
+function penWinnerSide(teamName, match) {
+  if (!teamName || !match) return null;
+  if (teamName === match.home) return 'home';
+  if (teamName === match.away) return 'away';
+  return null;
+}
+
+/**
+ * @param {object} prediction - { home, away, pen_winner? }
+ * @param {object} result     - { home_score, away_score, penalties_winner }
+ * @param {object} match      - { home, away } team names from matches.json
+ */
+export function calcMatchPoints(prediction, result, match) {
   if (result.home_score === null || result.away_score === null) {
     return { points: null, exactScore: false, correctWinner: false };
   }
@@ -35,20 +52,35 @@ export function calcMatchPoints(prediction, result) {
   const predOutcome   = getOutcome(prediction.home, prediction.away);
   const actualOutcome = getOutcome(result.home_score, result.away_score);
 
-  // Actual winner: pen winner if draw, otherwise score winner
-  const actualWinner = actualOutcome === 'draw'
-    ? (result.penalties_winner || null)  // null = draw with no pens (group stage)
-    : actualOutcome; // 'home' or 'away'
+  // Actual winner side ('home'/'away'), accounting for penalties
+  let actualWinnerSide;
+  if (actualOutcome !== 'draw') {
+    actualWinnerSide = actualOutcome;
+  } else {
+    // Draw after 90 min — winner is pen winner
+    actualWinnerSide = penWinnerSide(result.penalties_winner, match);
+  }
 
-  // Predicted winner: pen_winner if predicted draw, otherwise score outcome
-  const predWinner = predOutcome === 'draw'
-    ? (prediction.pen_winner || null)
-    : predOutcome; // 'home' or 'away'
+  // Predicted winner side
+  let predWinnerSide;
+  if (predOutcome !== 'draw') {
+    predWinnerSide = predOutcome; // 'home' or 'away'
+  } else {
+    // Predicted draw — use pen_winner name to get side
+    predWinnerSide = penWinnerSide(prediction.pen_winner, match);
+  }
 
-  // Correct winner: predicted winner matches actual winner
-  const correctWinner = predWinner !== null && actualWinner !== null
-    ? predWinner === actualWinner
-    : predOutcome === actualOutcome; // fallback for group stage draws
+  // Correct winner check
+  let correctWinner;
+  if (predWinnerSide && actualWinnerSide) {
+    // Both have a winner → compare sides
+    correctWinner = predWinnerSide === actualWinnerSide;
+  } else if (!predWinnerSide && !actualWinnerSide) {
+    // Both predicted draw with no pen, actual draw with no pen (group stage)
+    correctWinner = predOutcome === 'draw' && actualOutcome === 'draw';
+  } else {
+    correctWinner = false;
+  }
 
   const exactScore = prediction.home === result.home_score &&
                      prediction.away === result.away_score;
@@ -60,7 +92,7 @@ export function calcMatchPoints(prediction, result) {
   return { points, exactScore, correctWinner };
 }
 
-export function calcTotalPoints(participant, predictions, results) {
+export function calcTotalPoints(participant, predictions, results, matchesById) {
   const myPreds = predictions[participant] || {};
   let total          = 0;
   let exactScores    = 0;
@@ -75,7 +107,8 @@ export function calcTotalPoints(participant, predictions, results) {
 
     playedMatches++;
     const pred   = myPreds[matchId];
-    const scored = calcMatchPoints(pred, result);
+    const match  = matchesById ? matchesById[matchId] : null;
+    const scored = calcMatchPoints(pred, result, match);
     breakdown[matchId] = scored;
 
     if (scored.points !== null) {
@@ -88,9 +121,9 @@ export function calcTotalPoints(participant, predictions, results) {
   return { total, breakdown, exactScores, correctWinners, playedMatches };
 }
 
-export function buildLeaderboard(participants, predictions, results) {
+export function buildLeaderboard(participants, predictions, results, matchesById) {
   const board = participants.map(name => {
-    const stats = calcTotalPoints(name, predictions, results);
+    const stats = calcTotalPoints(name, predictions, results, matchesById);
     return { name, ...stats };
   });
 
