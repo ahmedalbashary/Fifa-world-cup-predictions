@@ -71,9 +71,9 @@
     "penalties_winner": "Egypt"
   },
   "r32_m15": {
-    "home_score": null,
-    "away_score": null,
-    "penalties_winner": null
+    "home_score": 1,
+    "away_score": 1,
+    "penalties_winner": "Argentina"
   },
   "r32_m16": {
     "home_score": 1,
