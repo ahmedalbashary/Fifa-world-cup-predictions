@@ -11,13 +11,13 @@
     "penalties_winner": null
   },
   "r32_m3": {
-    "home_score": 4,
-    "away_score": 5,
+    "home_score": 1,
+    "away_score": 1,
     "penalties_winner": "Paraguay"
   },
   "r32_m4": {
-    "home_score": 3,
-    "away_score": 4,
+    "home_score": 1,
+    "away_score": 1,
     "penalties_winner": "Morocco"
   },
   "r32_m5": {
@@ -41,7 +41,7 @@
     "penalties_winner": null
   },
   "r32_m9": {
-    "home_score": 3,
+    "home_score": 2,
     "away_score": 2,
     "penalties_winner": null
   },
@@ -66,8 +66,8 @@
     "penalties_winner": null
   },
   "r32_m14": {
-    "home_score": 3,
-    "away_score": 5,
+    "home_score": 1,
+    "away_score": 1,
     "penalties_winner": "Egypt"
   },
   "r32_m15": {
@@ -81,13 +81,13 @@
     "penalties_winner": null
   },
   "r16_m1": {
-    "home_score": null,
-    "away_score": null,
+    "home_score": 0,
+    "away_score": 3,
     "penalties_winner": null
   },
   "r16_m2": {
-    "home_score": null,
-    "away_score": null,
+    "home_score": 0,
+    "away_score": 1,
     "penalties_winner": null
   },
   "r16_m3": {
