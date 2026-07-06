@@ -73,7 +73,7 @@
   "r32_m15": {
     "home_score": 1,
     "away_score": 2,
-     "penalties_winner": null
+    "penalties_winner": null
   },
   "r32_m16": {
     "home_score": 1,
@@ -101,8 +101,8 @@
     "penalties_winner": null
   },
   "r16_m5": {
-    "home_score": null,
-    "away_score": null,
+    "home_score": 0,
+    "away_score": 1,
     "penalties_winner": null
   },
   "r16_m6": {
