@@ -116,9 +116,9 @@
     "penalties_winner": null
   },
   "r16_m8": {
-    "home_score": null,
-    "away_score": null,
-    "penalties_winner": null
+    "home_score": 0,
+    "away_score": 0,
+    "penalties_winner": "Colombia"
   },
   "qf_m1": {
     "home_score": null,
