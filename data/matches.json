@@ -45,11 +45,11 @@
         { "id": "qf_m4", "home": null, "away": null, "date": null, "from": ["r16_m7", "r16_m8"] }
       ]
     },
-    "semi_finals": {
+  "semi_finals": {
       "label": "Semi Finals",
       "matches": [
-        { "id": "sf_m1", "home": null, "away": null, "date": null, "from": ["qf_m1", "qf_m2"] },
-        { "id": "sf_m2", "home": null, "away": null, "date": null, "from": ["qf_m3", "qf_m4"] }
+        { "id": "sf_m1", "home": null, "away": null, "date": null, "from": ["qf_m1", "qf_m3"] },
+        { "id": "sf_m2", "home": null, "away": null, "date": null, "from": ["qf_m2", "qf_m4"] }
       ]
     },
     "final": {
