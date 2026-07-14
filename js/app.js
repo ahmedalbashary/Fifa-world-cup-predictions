@@ -55,9 +55,9 @@ async function loadAllData() {
   state.results     = resultsData;
   state.predictions = predictionsData;
   state.resolved    = resolveBracket(matchesData, resultsData);
-  // Build matchesById lookup for calculator
+  // Build matchesById from RESOLVED bracket so home/away are populated
   state.matchesById = {};
-  for (const round of Object.values(matchesData.rounds || {})) {
+  for (const round of Object.values(state.resolved.rounds || {})) {
     for (const m of round.matches || []) {
       state.matchesById[m.id] = m;
     }
