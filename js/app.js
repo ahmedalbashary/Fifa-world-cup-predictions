@@ -36,7 +36,8 @@ let state = {
 // ─── Data Loading ─────────────────────────────────────────────────────────────
 
 async function fetchJSON(path) {
-  const res = await fetch(path);
+  const sep = path.includes('?') ? '&' : '?';
+  const res = await fetch(path + sep + 'v=' + Date.now());
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
   return res.json();
 }
