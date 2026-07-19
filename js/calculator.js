@@ -33,7 +33,7 @@ function toSide(teamName, match) {
  * @param {object} result      { home_score, away_score, penalties_winner }
  * @param {object} match       { home, away }  — team names from matches.json
  */
-export function calcMatchPoints(prediction, result, match) {
+export function calcMatchPoints(prediction, result, match, isFinal = false) {
   if (result.home_score === null || result.away_score === null) {
     return { points: null, exactScore: false, correctWinner: false };
   }
@@ -65,14 +65,14 @@ export function calcMatchPoints(prediction, result, match) {
 
     if (correctWinner) {
       // pen winner correct → 2 pts always
-      return { points: 2, exactScore, correctWinner: true };
+      return { points: isFinal ? 5 : 2, exactScore, correctWinner: true };
     } else if (predPenSide === null || actualWinnerSide === null) {
       // No pen winner specified (group stage draw), or match had no pens
       // Give 1 pt for correct draw outcome + bonus if exact score
-      return { points: 1 + (exactScore ? 1 : 0), exactScore, correctWinner: false };
+      return { points: isFinal ? (1 + (exactScore ? 4 : 0)) : (1 + (exactScore ? 1 : 0)), exactScore, correctWinner: false };
     } else {
       // pen winner wrong → 1 pt for draw
-      return { points: 1, exactScore: false, correctWinner: false };
+      return { points: isFinal ? 3 : 1, exactScore: false, correctWinner: false };
     }
   }
 
@@ -89,7 +89,7 @@ export function calcMatchPoints(prediction, result, match) {
                      prediction.home === result.home_score &&
                      prediction.away === result.away_score;
 
-  return { points: 1 + (exactScore ? 1 : 0), exactScore, correctWinner: true };
+  return { points: isFinal ? (3 + (exactScore ? 2 : 0)) : (1 + (exactScore ? 1 : 0)), exactScore, correctWinner: true };
 }
 
 export function calcTotalPoints(participant, predictions, results, matchesById) {
@@ -108,7 +108,7 @@ export function calcTotalPoints(participant, predictions, results, matchesById) 
     playedMatches++;
     const pred   = myPreds[matchId];
     const match  = matchesById?.[matchId] ?? null;
-    const scored = calcMatchPoints(pred, result, match);
+    const scored = calcMatchPoints(pred, result, match, matchId === "final_m1");
     breakdown[matchId] = scored;
 
     if (scored.points !== null) {
