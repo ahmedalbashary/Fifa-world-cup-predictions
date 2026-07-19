@@ -30,8 +30,8 @@
     "qf_m2":   { "home": 1, "away": 2 },
     "qf_m3":   { "home": 0, "away": 1 },
     "qf_m4":   { "home": 0, "away": 0, "pen_winner": "Argentina" },
-    "sf_m1":   { "home": 2, "away": 1 },
-    "sf_m2":   { "home": 2, "away": 1 },
+    "sf_m1":   { "home": 2, "away": 0 },
+    "sf_m2":   { "home": 2, "away": 0 },
     "final_m1":{ "home": 2, "away": 1 }
   },
 
@@ -64,9 +64,9 @@
     "qf_m2":   { "home": 2, "away": 2, "pen_winner": "Norway"   },
     "qf_m3":   { "home": 3, "away": 1 },
     "qf_m4":   { "home": 0, "away": 1 },
-    "sf_m1":   { "home": 2, "away": 0 },
-    "sf_m2":   { "home": 1, "away": 0 },
-    "final_m1":{ "home": 2, "away": 0 }
+    "sf_m1":   { "home": 1, "away": 2 },
+    "sf_m2":   { "home": 1, "away": 1, "pen_winner": "Argentina"    },
+    "final_m1":{ "home": 1, "away": 1, "pen_winner": "Argentina"    }
   },
 
   "Honda": {
@@ -98,9 +98,9 @@
     "qf_m2":   { "home": 2, "away": 2, "pen_winner": "Norway"   },
     "qf_m3":   { "home": 3, "away": 0 },
     "qf_m4":   { "home": 1, "away": 2 },
-    "sf_m1":   { "home": 1, "away": 0 },
-    "sf_m2":   { "home": 2, "away": 1 },
-    "final_m1":{ "home": 1, "away": 0 }
+    "sf_m1":   { "home": 1, "away": 2 },
+    "sf_m2":   { "home": 3, "away": 0 },
+    "final_m1":{ "home": 2, "away": 3 }
   },
 
   "K. Embaby": {
@@ -132,8 +132,8 @@
     "qf_m2":   { "home": 1, "away": 2 },
     "qf_m3":   { "home": 1, "away": 0 },
     "qf_m4":   { "home": 3, "away": 0 },
-    "sf_m1":   { "home": 1, "away": 0 },
-    "sf_m2":   { "home": 2, "away": 1 },
+    "sf_m1":   { "home": 2, "away": 0 },
+    "sf_m2":   { "home": 3, "away": 1 },
     "final_m1":{ "home": 2, "away": 1 }
   },
 
@@ -166,9 +166,9 @@
     "qf_m2":   { "home": 1, "away": 3 },
     "qf_m3":   { "home": 3, "away": 0 },
     "qf_m4":   { "home": 2, "away": 1 },
-    "sf_m1":   { "home": 2, "away": 1 },
-    "sf_m2":   { "home": 2, "away": 0 },
-    "final_m1":{ "home": 2, "away": 1 }
+    "sf_m1":   { "home": 2, "away": 0 },
+    "sf_m2":   { "home": 1, "away": 2 },
+    "final_m1":{ "home": 1, "away": 2 }
   },
 
   "Khaled Alaa": {
@@ -202,7 +202,7 @@
     "qf_m4":   { "home": 2, "away": 1 },
     "sf_m1":   { "home": 2, "away": 1 },
     "sf_m2":   { "home": 1, "away": 2 },
-    "final_m1":{ "home": 3, "away": 1 }
+    "final_m1":{ "home": 2, "away": 2, "pen_winner": "Spain"    }
   },
 
   "Karim": {
@@ -235,7 +235,7 @@
     "qf_m3":   { "home": 1, "away": 1, "pen_winner": "Spain"   },
     "qf_m4":   { "home": 2, "away": 1 },
     "sf_m1":   { "home": 2, "away": 1 },
-    "sf_m2":   { "home": 1, "away": 0 },
+    "sf_m2":   { "home": 3, "away": 2 },
     "final_m1":{ "home": 2, "away": 0 }
   },
 
@@ -269,7 +269,7 @@
     "qf_m3":   { "home": 2, "away": 0 },
     "qf_m4":   { "home": 0, "away": 2 },
     "sf_m1":   { "home": 2, "away": 1 },
-    "sf_m2":   { "home": 1, "away": 0 },
+    "sf_m2":   { "home": 3, "away": 0 },
     "final_m1":{ "home": 2, "away": 1 }
   }
 }
