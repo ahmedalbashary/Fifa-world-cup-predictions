@@ -1,11 +1,11 @@
 {
-  "_comment": "90-min scores only. penalties_winner = team name if match went to pens.",
+  "_comment": "90-min/AET scores. penalties_winner = team name only if match went to penalty shootout.",
 
   "r32_m1":  { "home_score": 0, "away_score": 1, "penalties_winner": null },
   "r32_m2":  { "home_score": 2, "away_score": 1, "penalties_winner": null },
   "r32_m3":  { "home_score": 1, "away_score": 1, "penalties_winner": "Paraguay" },
   "r32_m4":  { "home_score": 1, "away_score": 1, "penalties_winner": "Morocco" },
-  "r32_m5":  { "home_score": 2, "away_score": 1, "penalties_winner": null },
+  "r32_m5":  { "home_score": 1, "away_score": 2, "penalties_winner": null },
   "r32_m6":  { "home_score": 3, "away_score": 0, "penalties_winner": null },
   "r32_m7":  { "home_score": 2, "away_score": 0, "penalties_winner": null },
   "r32_m8":  { "home_score": 2, "away_score": 1, "penalties_winner": null },
